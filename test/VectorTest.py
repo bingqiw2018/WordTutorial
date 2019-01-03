@@ -59,6 +59,25 @@ def class_word():
     
     print lda.components_ 
     
+def class_zhongyi():
+    dictionTools = DictionTools()
+    dictionTools.suggest_dic_temp_words([u'中医按摩'])
+    words = dictionTools.getDataSource("D:\eclipse4.8\workspace_nlp\WordTutorial\data\DOC_002.txt")
+    
+    count_vec=CountVectorizer(stop_words=None)
+    cntTf = count_vec.fit_transform(words)
+    
+#     print cntTf.shape,cntTf.toarray()
+    
+    lda = LatentDirichletAllocation(n_components=2,learning_offset=50.,random_state=0)
+        
+    docres = lda.fit_transform(cntTf)
+    
+    for i in range(len(words)):
+        print docres[i],words[i], "/".join( word[0] for word in dictionTools.extract_tags(words[i]))
+    
+#     print lda.components_ 
+        
         
 if __name__ == '__main__':
-    class_word()
+    class_zhongyi()
