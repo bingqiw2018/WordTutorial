@@ -10,11 +10,11 @@ import jieba.analyse
 
 class DictionTools(object):
 
-    __stop_words_filename = "D:\eclipse4.8\workspace_nlp\WordTutorial\data\stop_words.txt"
+    __stop_words_filename = "D:\Program Files\eclipse4.6\workspace\WordTutorial\data\stop_words.txt"
     
     __dic_files = [
-            "D:\eclipse4.8\workspace_nlp\WordTutorial\data\dict_words_china.txt",
-            "D:\eclipse4.8\workspace_nlp\WordTutorial\data\dict_words.txt"
+            "D:\Program Files\eclipse4.6\workspace\WordTutorial\data\dict_words_china.txt",
+            "D:\Program Files\eclipse4.6\workspace\WordTutorial\data\dict_words.txt"
         ]
     
     __stopwords = []
