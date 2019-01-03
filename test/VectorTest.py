@@ -28,7 +28,7 @@ def vectorforMatrix():
 def testChinese():
     dictionTools = DictionTools()
     dictionTools.suggest_dic_temp_words([u'沙瑞金',u'易学习',u'王大路',u'京州',u'欧阳菁',('和', '易')])
-    words = dictionTools.getDataSource("D:\eclipse4.8\workspace_nlp\WordTutorial\data\DOC_001.txt")
+    words = dictionTools.getDataSource("D:\AppData\Local\NLP\data\DOC_001.txt")
     
     for word_str in words:
         print(word_str)
@@ -44,7 +44,7 @@ def class_word():
     
     dictionTools = DictionTools()
     dictionTools.suggest_dic_temp_words([u'沙瑞金',u'易学习',u'王大路',u'京州',u'欧阳菁',('和', '易')])
-    words = dictionTools.getDataSource("D:\eclipse4.8\workspace_nlp\WordTutorial\data\DOC_001.txt")
+    words = dictionTools.getDataSource("D:\AppData\Local\NLP\data\DOC_001.txt")
     
     count_vec=CountVectorizer(stop_words=None)
     cntTf = count_vec.fit_transform(words)
@@ -62,7 +62,7 @@ def class_word():
 def class_zhongyi():
     dictionTools = DictionTools()
     dictionTools.suggest_dic_temp_words([u'中医按摩'])
-    words = dictionTools.getDataSource("D:\eclipse4.8\workspace_nlp\WordTutorial\data\DOC_002.txt")
+    words = dictionTools.getDataSource("D:\AppData\Local\NLP\data\DOC_002.txt")
     
     count_vec=CountVectorizer(stop_words=None)
     cntTf = count_vec.fit_transform(words)
