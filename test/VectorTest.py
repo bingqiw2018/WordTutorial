@@ -160,6 +160,8 @@ def topic_keywords():
         
     docres = lda.fit_transform(cntTf)
     max_num = 1.0
+    
+    print 'vector size:', docres.shape
     print 'max_num:',max_num,'key_size:',key_size
     
     print 'doc topic allocation:'
