@@ -155,7 +155,8 @@ def topic_keywords():
     count_vec=CountVectorizer(stop_words=None)
     cntTf = count_vec.fit_transform(words)
     
-    key_size = 3
+    key_size = 7
+    
     lda = LatentDirichletAllocation(n_components=key_size,learning_offset=50.,random_state=0)
         
     docres = lda.fit_transform(cntTf)
@@ -182,5 +183,12 @@ def topic_keywords():
                 val_str = val_str + key + ","
         print x, "/".join(v_tr[0] for v_tr in dictionTools.extract_tags(val_str))
 
+def top_keywords():
+    dictionTools = DictionTools()
+    words = dictionTools.getDataSource(loc.data_file+"DOC_002.txt")
+    for item in words:
+        temp = item.split("/",5)
+        print "/".join(temp)
+    
 if __name__ == '__main__':
-    topic_keywords()
+    top_keywords()
