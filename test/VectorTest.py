@@ -155,8 +155,10 @@ def topic_keywords():
     count_vec=CountVectorizer(stop_words=None)
     cntTf = count_vec.fit_transform(words)
     
-    key_size = 7
+    topic_word = "中医按摩"
+    print "主题词：","/".join(dictionTools.cut(topic_word))
     
+    key_size = 3
     lda = LatentDirichletAllocation(n_components=key_size,learning_offset=50.,random_state=0)
         
     docres = lda.fit_transform(cntTf)
@@ -165,13 +167,13 @@ def topic_keywords():
     print 'vector size:', docres.shape
     print 'max_num:',max_num,'key_size:',key_size
     
-    print 'doc topic allocation:'
-    print docres
+#     print 'doc topic allocation:'
+#     print docres
     
-    print 'topic words allocation:'
-    print lda.components_
+#     print 'topic words allocation:'
+#     print lda.components_
     
-    print 'topic key words allocation:'
+#     print 'topic key words allocation:'
     
     for x in range(len(lda.components_)) :
         liss = lda.components_[x]
@@ -182,13 +184,70 @@ def topic_keywords():
             if val > max_num:
                 val_str = val_str + key + ","
         print x, "/".join(v_tr[0] for v_tr in dictionTools.extract_tags(val_str))
-
-def top_keywords():
-    dictionTools = DictionTools()
-    words = dictionTools.getDataSource(loc.data_file+"DOC_002.txt")
-    for item in words:
-        temp = item.split("/",5)
-        print "/".join(temp)
+import chardet
+def test_topic_keywords_size(): 
     
+    dictionTools = DictionTools()
+    dictionTools.suggest_dic_temp_words([u'沙瑞金',u'易学习',u'王大路',u'京州',u'欧阳菁',('和', '易')])
+    words = dictionTools.getDataSource(loc.data_file+"DOC_003.txt")
+    
+    count_vec=CountVectorizer(stop_words=None)
+    cntTf = count_vec.fit_transform(words)
+    
+    topic_word = u"中医按摩"
+    print "主题词：","/".join(dictionTools.cut(topic_word))
+    
+    for index in range(1,10):     
+        best_key_index, best_key_arr, best_key_word, shape = topic_keywords_size(cntTf, count_vec, dictionTools, index, topic_word)
+        
+        if best_key_index == 0:
+            print shape[1], best_key_arr
+    
+    print "结束"        
+
+
+    
+def topic_keywords_size(cntTf, count_vec, dictionTools, key_size, topic_word):
+    
+    lda = LatentDirichletAllocation(n_components=key_size,learning_offset=50.,random_state=0)
+        
+    docres = lda.fit_transform(cntTf)
+    max_num = 1.0
+    
+#     print 'vector size:', docres.shape
+#     print 'max_num:',max_num,'key_size:',key_size
+    
+    best_key_index = -1
+    best_key_arr = ""
+    best_key_word = ""
+    
+    for x in range(len(lda.components_)) :
+        liss = lda.components_[x]
+        val_str = ""
+        for y in range(len(liss)):
+            val = liss[y]
+            key = findKey(y,count_vec.vocabulary_)         
+            if val > max_num:
+                val_str = val_str + key + ","
+        list_build = dictionTools.extract_tags(val_str)        
+        list_temp = list_build[0:5]
+#         print "/".join(v_tr[0] for v_tr in list_temp)
+        
+        for index in range(len(list_temp)):
+#             print list_temp[index][0],topic_word,list_temp[index][0] == topic_word
+            if list_temp[index][0] == topic_word :
+                if best_key_index == -1:
+                    best_key_index = index
+                    best_key_arr = "/".join(v_tr[0] for v_tr in list_temp)
+                    best_key_word = val_str
+                elif index < best_key_index :
+                    best_key_index = index
+                    best_key_arr = "/".join(v_tr[0] for v_tr in list_temp)
+                    best_key_word = val_str
+                break;
+            
+    return best_key_index,best_key_arr,best_key_word,docres.shape    
+#         print x, "/".join(v_tr[0] for v_tr in dictionTools.extract_tags(val_str))
+        
 if __name__ == '__main__':
-    top_keywords()
+    test_topic_keywords_size()
