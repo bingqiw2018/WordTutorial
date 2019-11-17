@@ -33,6 +33,16 @@ class DictionTools(object):
     def getDataSource(self, file_name):
         return [line.strip() for line in io.open(file_name, 'r', encoding='utf-8').readlines()]
     
+    # remove the word
+    def remove_word(self, word):
+        arr = ['安迪']
+        result = []
+        for item in self.cut(word, True):
+            if item not in arr:
+                result.append(item)
+        
+        return "".join(result)
+        
     #fetch the stop words
     def get_stop_words(self):
         return self.__stopwords
@@ -82,9 +92,9 @@ class DictionTools(object):
         back_str = ""
         if stop_req:
             back_str = "".join(self.__cut_by_stop_words(word_str))
-            return jieba.analyse.extract_tags(back_str, topK=20, withWeight=True, allowPOS=())
+            return jieba.analyse.extract_tags(back_str, topK=20, withWeight=True, allowPOS=('nt','nz','nr','ns', 'n', 'vn', 'v','j'))
         else:
-            return jieba.analyse.extract_tags(word_str, topK=20, withWeight=True, allowPOS=())    
+            return jieba.analyse.extract_tags(word_str, topK=20, withWeight=True, allowPOS=('nt','nz','nr','ns', 'n', 'vn', 'v','j'))    
     
     #add customer diction by temporary definition
     def add_dic_temp_words(self, temp_words = []):
