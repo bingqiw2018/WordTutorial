@@ -1,0 +1,13 @@
+# Some files should be committed.
+
+**/*.pyc
+
+# .gitignore
+
+.project
+
+.pydevproject
+
+*.swp
+
+/.settings/
